@@ -191,6 +191,134 @@ The goal is not:
 The goal is:
 
 > Make saved information useful again.
+>
+> # Running Bookmark Zero
+
+This is a **Chrome Extension (Manifest V3)**.
+
+There is no build step. No compilation. No install script.
+
+You load it directly into Chrome.
+
+---
+
+# 1. Folder Structure Check
+
+Make sure your repo looks like this:
+
+```
+bookmark-zero/
+├── manifest.json
+└── src/
+    ├── background.js
+    ├── popup.html
+    ├── popup.js
+    ├── storage.js
+    └── triageEngine.js
+```
+
+IMPORTANT:
+- `manifest.json` must be in the ROOT folder
+- Do NOT load the `src/` folder in Chrome
+
+---
+
+# 2. Load the Extension in Chrome
+
+1. Open Chrome
+2. Go to:
+   ```
+   chrome://extensions
+   ```
+3. Enable:
+   ```
+   Developer mode (top right toggle)
+   ```
+4. Click:
+   ```
+   Load unpacked
+   ```
+5. Select the **bookmark-zero/** folder (root folder)
+
+---
+
+# 3. How to Test It
+
+Once loaded:
+
+### Step 1 — Create a bookmark
+Bookmark any page in Chrome.
+
+### Step 2 — Open the extension
+Click the puzzle icon → select **Bookmark Zero**
+
+### Step 3 — Check popup
+You should see your bookmarked item listed as:
+
+- INBOX state item(s)
+
+---
+
+# 4. Expected Behavior
+
+When you bookmark a page:
+
+- It is automatically captured
+- It is stored in `chrome.storage.local`
+- It appears in the popup under INBOX
+
+When you click a state button:
+
+- The bookmark updates state (ACTIVE / RESEARCH / FLASH)
+- It disappears from INBOX view
+
+---
+
+# 5. Debugging (if nothing works)
+
+Open:
+
+```
+chrome://extensions
+```
+
+Find **Bookmark Zero** → click:
+
+- “Service worker” → Inspect
+
+Check console for:
+
+```
+Captured: Page Title
+```
+
+If you do NOT see logs:
+- background script is not running
+- or manifest path is incorrect
+
+---
+
+# 6. Important Notes
+
+- No build tools required
+- No bundler required
+- No TypeScript required
+- Everything runs directly in Chrome
+
+This is intentionally minimal.
+
+---
+
+# 7. Philosophy
+
+Bookmark Zero is not a storage system.
+
+It is a **decision system for attention**.
+
+Bookmarks are treated as:
+
+> items that must be triaged, not stored forever
+```
 
 ---
 
