@@ -1,57 +1,23 @@
-import {
+chrome.bookmarks.onCreated.addListener(async (id, node) => {
 
-saveBookmarkRecord
+    if (!node.url) return;
 
-}
+    const record = {
+        id,
+        title: node.title,
+        url: node.url,
+        createdAt: Date.now(),
+        state: "INBOX"
+    };
 
-from "./storage.js";
+    console.log("Captured:", node.title);
 
+    const existing = await chrome.storage.local.get("bookmarks");
 
+    const bookmarks = existing.bookmarks || [];
 
-chrome.bookmarks.onCreated.addListener(
+    bookmarks.push(record);
 
-async(id,node)=>{
-
-if(!node.url)return;
-
-
-
-await saveBookmarkRecord({
-
-id,
-
-title:node.title,
-
-url:node.url,
-
-createdAt:Date.now(),
-
-state:"INBOX"
+    await chrome.storage.local.set({ bookmarks });
 
 });
-
-
-
-console.log(
-
-"Captured:",
-
-node.title
-
-);
-
-});
-
-
-
-chrome.alarms.create(
-
-"maintenance",
-
-{
-
-periodInMinutes:60
-
-}
-
-);
