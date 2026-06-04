@@ -1,16 +1,16 @@
-chrome.bookmarks.onCreated.addListener(async (id, node) => {
+chrome.bookmarks.onCreated.addListener(async (bookmarkId, bookmarkNode) => {
 
-    if (!node.url) return;
+    if (!bookmarkNode.url) return;
 
     const record = {
-        id,
-        title: node.title,
-        url: node.url,
+        id: bookmarkId,
+        title: bookmarkNode.title,
+        url: bookmarkNode.url,
         createdAt: Date.now(),
         state: "INBOX"
     };
 
-    console.log("Captured:", node.title);
+    console.log("Captured:", bookmarkNode.title);
 
     const existing = await chrome.storage.local.get("bookmarks");
 
